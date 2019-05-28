@@ -35,4 +35,3 @@ def read_message():
     # Read the text (JSON object) of the message.
     text = sys.stdin.read(text_length).decode('utf-8')
     return text
-

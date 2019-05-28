@@ -51,7 +51,7 @@ if __name__ == '__main__':
         path.join(__dirname, "/lib/euler.py"),
         path.join(tempDir, "euler.py")
       );
-      console.log(scriptPath);
+
       const child = spawn("python", [scriptPath]);
 
       const send = message => {
@@ -75,24 +75,20 @@ if __name__ == '__main__':
         /* Make sure we have enough bytes to parse a UInt32 */
         if (input.length < 4) return;
 
-        console.log(input.byteLength + " bytes read");
-
-        var msgLen = input.readUInt32LE(0);
-        var dataLen = msgLen + 4;
+        const msgLen = input.readUInt32LE(0);
+        const dataLen = msgLen + 4;
 
         if (input.length >= dataLen) {
-          var content = input.slice(4, dataLen);
-          var request = JSON.parse(content.toString());
-          console.log("[py]: ", request);
-          var response = await this.handleRequest(request);
-          send(response);
+          const content = input.slice(4, dataLen);
+          const request = JSON.parse(content.toString());
+          send(await this.handleRequest(request));
         }
       };
 
       child.stdout.on("readable", async () => await read());
 
       child.stderr.on("data", data => {
-        console.log(`stderr: ${data}`);
+        console.log(`[stderr]: ${data}`);
       });
 
       child.on("exit", code => {
