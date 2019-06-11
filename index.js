@@ -1,5 +1,7 @@
 const LexicalScope = require("./core/lexical-scope");
 const InteropHost = require("./core/interop");
+const fs = require("fs");
+const path = require("path");
 
 const scope = new LexicalScope();
 scope
@@ -7,29 +9,25 @@ scope
   .then(() => runCode())
   .catch("Unable to load native modules");
 
-function runCode() {
+async function runCode() {
   /* Tac on function to execute foreign scripts */
   const interopHost = new InteropHost();
 
-  const py = async ([code]) => {
-    interopHost
+  /* Python interop hook */
+  const python = async ([code]) => {
+    console.log("[py-interop]: starting execution of foreign script...");
+    return interopHost
       .run("py", code, scope)
-      .then(() => console.log("End!"))
-      .catch(err => console.error("Error: " + err.message));
+      .then(() => console.log("[py-interop]: forign script completed with an exit code of 0"))
+      .catch(err => {
+        /* re-throw the error so it can be caught by the evaluator */
+        throw err
+      });
   };
-  scope.add("py", py);
-
-  const code = `
-      scope.add("a", 3);
-      scope.add("x", scope.get("mean")([1, 2, 3]));  //mean([1, 2, 3]);
-      py\`
-      x = 6 - 5
-      euler.write("Hello to Eulerscript v%s!" %x)
-      \`;
-      scope.get("print")(3);
-   `;
-
-  eval(code);
-  console.log("Code execuction completed");
-  console.log(scope.getAsObject());
+  const code = fs.readFileSync(path.join(__dirname, "script.el"), {encoding: 'utf-8'});
+  const execPromise = eval(code);
+  execPromise.then(() => {
+     console.log("[script-evaluator]: script ran to completetion!");
+  })
+  .catch(err => console.log("An error occurred:", err.message));
 }

@@ -8,7 +8,7 @@ class LexicalScope {
 
   LoadLibs() {
     return new Promise((resolve, reject) => {
-      /* Load all files in the ./native directory */
+      /* Load all modules in the 'lib' directory */
       fs.readdir(path.join(__dirname, "/lib"), (error, modules) => {
         if (error) reject(error);
         if (!modules) return;

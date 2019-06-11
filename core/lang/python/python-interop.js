@@ -20,20 +20,7 @@ module.exports = class PyInterop {
         return;
       }
 
-      /* Python is indentation sensitive */
-      const scriptCode = `
-# Import wrapper modules to implement funtionality used in main
-import euler
-import sys
-
-# Typical script entry point
-def Main():
-  ${code}
-
-if __name__ == '__main__':
-  Main()
-      `;
-
+      const scriptCode = require("./template")(code);
       const mkdtemp = util.promisify(fs.mkdtemp);
       const tempDir = await mkdtemp(path.join(os.tmpdir(), "py-interop-"));
       const scriptPath = path.join(tempDir, "script.py");
@@ -41,7 +28,7 @@ if __name__ == '__main__':
       const writeFile = util.promisify(fs.writeFile);
       await writeFile(scriptPath, scriptCode);
 
-      /* Copy modules the script is depenedent on */
+      /* Copy script dependencies */
       const copyFile = util.promisify(fs.copyFile);
       await copyFile(
         path.join(__dirname, "/lib/euler_interop.py"),
@@ -72,7 +59,7 @@ if __name__ == '__main__':
         }
         input = Buffer.concat(input);
 
-        /* Make sure we have enough bytes to parse a UInt32 */
+        /* Make sure we have enough bytes to parse an int */
         if (input.length < 4) return;
 
         const msgLen = input.readUInt32LE(0);
@@ -88,13 +75,18 @@ if __name__ == '__main__':
       child.stdout.on("readable", async () => await read());
 
       child.stderr.on("data", data => {
-        console.log(`[stderr]: ${data}`);
+        // console.log(`[stderr]: ${data}`);
+        this.lastError =
+          this.lastError && typeof this.lastError === "string"
+            ? this.lastError + "\n" + data
+            : data;
       });
 
       child.on("exit", code => {
-        console.log(`Process exited with code ${code}`);
         if (code === 0) resolve();
-        else reject("Script did not return 0");
+        else {
+          reject(new Error(this.lastError));
+        }
       });
 
       child.on("error", () => {

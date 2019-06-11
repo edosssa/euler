@@ -1,3 +1,5 @@
 module.exports = {
-    print: console.log
+    print: (value) => {
+        console.log(`>>> ${value}`);
+    }
 }
