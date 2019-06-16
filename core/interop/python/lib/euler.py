@@ -3,6 +3,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import json
 import struct
 import sys
 import threading
@@ -16,7 +17,11 @@ if sys.platform == "win32":
     msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
     msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
-# Helper function that sends a message to the euler host.
+
+################################################################
+# IPC helper functions for communincating with the euler host. #
+################################################################
+
 def send_message(message):
    # Write message size.
     sys.stdout.write(struct.pack('I', len(message)))
@@ -24,7 +29,6 @@ def send_message(message):
     sys.stdout.write(message)
     sys.stdout.flush()
 
-# Helper function that reads a message to the euler host.
 def read_message():
     # Read the message length (first 4 bytes).
     text_length_bytes = sys.stdin.read(4)
@@ -35,3 +39,27 @@ def read_message():
     # Read the text (JSON object) of the message.
     text = sys.stdin.read(text_length).decode('utf-8')
     return text
+
+
+###############################
+# Euler STD wrapper functions #
+###############################
+
+def write(text):
+    req = {"cmd": "print", "args": [text]}
+    send_message(json.dumps(req))
+    # read the response back, but discard it
+    read_message()
+
+
+def mean(array):
+    request = {"cmd": "mean", "args": [array]}
+    send_message(json.dumps(request))
+    payload = json.loads(read_message())
+    # assert its an array somehow
+    return payload["result"]
+
+def table():
+    req = {"cmd": "table", "args": []}
+    send_message(json.dumps(req))
+    res = json.loads(read_message())

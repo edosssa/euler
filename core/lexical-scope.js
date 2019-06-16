@@ -18,10 +18,10 @@ class LexicalScope {
           const moduleExport = require(modulePath);
           if (typeof moduleExport === "object") {
             Object.keys(moduleExport).forEach(key => {
-              this.add(key, moduleExport[key]);
+              this.set(key, moduleExport[key]);
             });
           } else if (typeof moduleExport === "function") {
-            this.add(moduleExport.name, moduleExport);
+            this.set(moduleExport.name, moduleExport);
           } else reject(new Error("Unexpected native lib export"));
         });
 
@@ -30,7 +30,7 @@ class LexicalScope {
     });
   }
 
-  add(key, value) {
+  set(key, value) {
     if (!key) throw new Error("Value supplied to add cannot be undefined");
     this.internalScope[key] = value;
   }

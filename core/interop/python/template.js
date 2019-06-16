@@ -7,7 +7,7 @@ function inflateTemplate(code) {
 import euler
 import sys
 
-# Typical script entry point
+# Main entry point
 def Main():
   ${code}
 

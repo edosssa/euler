@@ -8,6 +8,7 @@
     "recast": "^0.18.1"
   },
   "dependencies": {
+    "babel-core": "^6.26.3",
     "cli-table": "^0.3.1",
     "colors": "^1.3.3",
     "find-java-home": "^0.2.0"
