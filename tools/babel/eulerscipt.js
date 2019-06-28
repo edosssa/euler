@@ -1,6 +1,6 @@
 let wrapped = false;
 
-module.exports = function(babel) {
+module.exports = function (babel) {
   var t = babel.types;
   return {
     visitor: {
@@ -36,7 +36,7 @@ module.exports = function(babel) {
         if (path.node.left.type === "Identifier") {
           leftExpr = t.callExpression(
             t.memberExpression(t.identifier("scope"), t.identifier("get")),
-            [t.stringLiteral("left")]
+            [t.stringLiteral(path.node.right.name)]
           );
         }
 
@@ -44,7 +44,7 @@ module.exports = function(babel) {
         if (path.node.right.type === "Identifier") {
           rightExpr = t.callExpression(
             t.memberExpression(t.identifier("scope"), t.identifier("get")),
-            [t.stringLiteral("right")]
+            [t.stringLiteral(path.node.right.name)]
           );
         }
 
@@ -61,7 +61,7 @@ module.exports = function(babel) {
         path.shouldSkip = true
       },
 
-      CallExpression: function(path) {
+      CallExpression: function (path) {
         if (path.node.callee.type === "Identifier") {
           const innerExpr = t.callExpression(
             t.memberExpression(t.identifier("scope"), t.identifier("get")),
@@ -77,7 +77,26 @@ module.exports = function(babel) {
         // }
       },
 
-      VariableDeclaration: function(path) {
+      TemplateLiteral: function (path) {
+        if (path.node.expressions.filter(n => n.type === "Identifier").length === 0)
+          return;
+
+        const clone = { ...path.node };
+
+        clone.expressions = clone.expressions.map(node => {
+          if (node.type === "Identifier") {
+            return t.callExpression(
+              t.memberExpression(t.identifier("scope"), t.identifier("get")),
+              [t.stringLiteral(node.name)]
+            );
+          }
+          else return node;
+        });
+
+        path.replaceWith(clone);
+      },
+
+      VariableDeclaration: function (path) {
         const declarator = path.node.declarations[0];
 
         path.replaceWith(
@@ -88,7 +107,7 @@ module.exports = function(babel) {
         );
       },
 
-      ExpressionStatement: function(path) {}
+      ExpressionStatement: function (path) { }
     }
   };
 };
