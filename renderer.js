@@ -29,6 +29,7 @@
       readOnly: false,
       theme: "vs-dark",
       fontLigatures: true,
+      automaticLayout: true,
       fontSize: 16,
       fontFamily: '"Fira code", monospace'
     };
