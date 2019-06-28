@@ -17,14 +17,15 @@ if sys.platform == "win32":
     msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
     msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
+
 def send_message(message):
-   # Write message size.
-    # sys.stdout.write(struct.pack('I', len(message)))
+    # Write message size.
     sys.stdout.buffer.write(struct.pack('I', len(message)))
 
     # Write the message itself.
     sys.stdout.buffer.write(message.encode('utf-8'))
     sys.stdout.flush()
+
 
 def read_message():
     # Read the message length (first 4 bytes).
@@ -38,12 +39,15 @@ def read_message():
     return text
 
 ################################################################
+################### EULER STD WRAPPERS #########################
+
 
 def write(text):
     req = {"cmd": "print", "args": [text]}
     send_message(json.dumps(req))
     # read the response back, but discard it
     read_message()
+
 
 def mean(array):
     request = {"cmd": "mean", "args": [array]}
@@ -52,7 +56,23 @@ def mean(array):
     # assert its an array somehow
     return payload["result"]
 
+
 def table():
     req = {"cmd": "table", "args": []}
     send_message(json.dumps(req))
     res = json.loads(read_message())
+
+
+class Scope:
+    def get_value(self, variable):
+        req = {"cmd": "fetch-scope-value", "args": [variable]}
+        send_message(json.dumps(req))
+        payload = json.loads(read_message())
+        return payload['result']
+
+    def set_value(self, variable, value):
+        req = {"cmd": "set-scope-value", "args": [variable, value]}
+        send_message(json.dumps(req))
+        # just read the message and don't use the response
+        read_message()
+        return
