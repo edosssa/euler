@@ -10,16 +10,15 @@ let cache = {
   code: null,
 }
 
-function execute(code) {
+function build(code) {
   return new Promise(async (resolve, reject) => {
     if (!code) {
       reject(new Error("Must pass some valid code to execute"));
       return;
     }
-    
-    if (cache.lastBuildPath) {
-    /* verify that the dir is present on disk */
 
+    if (cache.lastBuildPath) {
+      /* verify that the dir is present on disk */
     }
 
     const scriptCode = require("./template")(code);
@@ -33,7 +32,7 @@ function execute(code) {
     /* Copy the euler library dependency to the build dir */
     const copyFile = util.promisify(fs.copyFile);
     await copyFile(
-      path.join(__dirname, "/lib/euler.py"),
+      path.join(__dirname, "/native/euler.py"),
       path.join(tmpScriptDir, "euler.py")
     );
 
@@ -46,8 +45,8 @@ function execute(code) {
   });
 }
 
-module.exports = { executePython: execute }
+module.exports = build;
 
-      
+
 
 

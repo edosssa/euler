@@ -1,46 +1,45 @@
-const { executePython } = require("./interop/python/executor");
-
 module.exports = class InteropHost {
   constructor(scope) {
     if (!scope) throw new Error("Scope object must be valid");
     this.scope = scope;
   }
 
-  execute({ code, lang }) {
-    if (lang === "py" || lang === "python") {
-      return this.executePythonScript(code);
-    } else if (lang === java) {
-      return Promise.reject(
-        new Error(
-          "Java is not suported as a cross scripting target at this time"
-        )
-      );
-    } else
-      return Promise.reject(new Error(`Lanaguage '${lang}' not supported`));
+  getBuilderPath(monikar) {
+    switch (monikar) {
+      case "py":
+        return "python";
+      default:
+        return "unknown";
+    }
   }
 
-  executePythonScript(code) {
+  execute({ code, lang }) {
     return new Promise(async (resolve, reject) => {
-      const pyProcess = await executePython(code);
+      let build = undefined;
 
-      pyProcess.stdout.on(
+      try { build = require(`./interop/${this.getBuilderPath(lang)}/build`); }
+      catch (error) { return reject(new Error(`${lang} is not supported for scripting`)); }
+
+      const process = await build(code);
+
+      process.stdout.on(
         "readable",
-        async () => await this.readMessage(pyProcess)
+        async () => await this.readMessage(process)
       );
 
-      pyProcess.stderr.on("data", data => {
+      process.stderr.on("data", data => {
         this.lastError =
           this.lastError && typeof this.lastError === "string"
             ? this.lastError + "\n" + data
             : data;
       });
 
-      pyProcess.on("exit", code => {
+      process.on("exit", code => {
         if (code === 0) resolve(code);
         else reject(new Error(this.lastError));
       });
 
-      pyProcess.on("error", () => {
+      process.on("error", () => {
         reject(new Error("An error occurred while spawing the python shell"));
       });
     });
