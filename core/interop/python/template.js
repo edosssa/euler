@@ -7,12 +7,14 @@ function inflateTemplate(code) {
 import euler
 import sys
 
+
 # Main entry point
 def Main():
-  ${code}
+    scope = euler.Scope()
+    ${code}
 
 if __name__ == '__main__':
-  Main()
+    Main()
       `;
   return scriptCode;
 }
