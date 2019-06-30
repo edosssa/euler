@@ -22,7 +22,6 @@
       value:
         "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line",
       language: "javascript",
-
       lineNumbers: "off",
       roundedSelection: false,
       scrollBeyondLastLine: false,
