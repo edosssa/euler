@@ -1,32 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Euler</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
 
-      html {
-        height: 100vh;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>Euler</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-      body {
-        height: 100vh;
-      }
+    html {
+      height: 100vh;
+    }
 
-      #container {
-        height: 100vh;
-        width: 100%;
-      }
-    </style>
+    body {
+      height: 100vh;
+    }
 
-  </head>
-  <body>
-    <div id="container"></div>
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+    .editor {
+      height: 70%;
+      width: 100%;
+    }
+
+    .terminal {
+      height: 30%  ;
+    }
+
+    .terminal__content {
+      height: 90%;
+      width: 100%;
+      background-color: black;
+    }
+
+    .terminal__header {
+      height: 10%;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="editor" class="editor"></div>
+  <div class="terminal">
+    <div class="terminal__header"></div>
+    <div id="terminal" class="terminal__content"></div>
+  </div>
+  <!-- You can also require other files to run in this process -->
+  <script src="./renderer.js"></script>
+</body>
+
 </html>

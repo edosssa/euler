@@ -1,10 +1,6 @@
-const fs = require("fs");
-const path = require("path");
 const babel = require("babel-core");
 /* Babel plugin that defines the transforms */
 const eulerscript = require("./babel/eulerscipt");
-
-const fileName = path.join(__dirname, "../script.js");
 
 function transpile(code) {
   if (!code) throw new Error("Code must be supplied");

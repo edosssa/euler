@@ -6,7 +6,7 @@ const { loadStdLib } = require("./core/util");
 const transpile = require("./tools/transpile");
 const { Logger, logLevels } = require("./core/logger");
 
-const showTranspiled = false;
+const showTranspiled = true;
 
 const logger = new Logger("scipt-evaluator");
 const scope = new LexicalScope();

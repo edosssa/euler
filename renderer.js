@@ -3,6 +3,7 @@
   const amdLoader = require("monaco-editor/min/vs/loader");
   const amdRequire = amdLoader.require;
   const amdDefine = amdLoader.require.define;
+
   function uriFromPath(_path) {
     var pathName = path.resolve(_path).replace(/\\/g, "/");
     if (pathName.length > 0 && pathName.charAt(0) !== "/") {
@@ -22,7 +23,7 @@
       value:
         "// First line\nfunction hello() {\n\talert('Hello world!');\n}\n// Last line",
       language: "javascript",
-      lineNumbers: "off",
+      lineNumbers: "on",
       roundedSelection: false,
       scrollBeyondLastLine: false,
       readOnly: false,
@@ -32,8 +33,14 @@
       fontSize: 16,
       fontFamily: '"Fira code", monospace'
     };
+
     var editor = monaco.editor.create(
-      document.getElementById("container"),
+      document.getElementById("editor"),
+      opts
+    );
+
+    var terminal = monaco.editor.create(
+      document.getElementById("terminal"),
       opts
     );
   });
