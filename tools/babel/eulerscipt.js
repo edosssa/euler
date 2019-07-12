@@ -1,12 +1,16 @@
-let wrapped = false;
-
 module.exports = function (babel) {
   var t = babel.types;
+
   return {
     visitor: {
       Program: function (path) {
         /* Wrap the entire code in an IFEE */
-        if (wrapped) return;
+
+        if (path.node.body.length === 1 &&
+          path.node.body[0] &&
+          path.node.body[0].type === "ExpressionStatement" &&
+          path.node.body[0].expression.callee &&
+          path.node.body[0].expression.callee.type === "ArrowFunctionExpression") return;
 
         const arrowFunction = t.ArrowFunctionExpression(
           [],
@@ -18,9 +22,6 @@ module.exports = function (babel) {
         );
 
         path.replaceWith(t.Program([expression]), []);
-        /* There's currently a bug in babel where calling path.skip doesn't
-         * work and causes the stack to get blown! */
-        wrapped = true;
       },
 
       BinaryExpression: function (path) {
@@ -36,7 +37,7 @@ module.exports = function (babel) {
         if (path.node.left.type === "Identifier") {
           leftExpr = t.callExpression(
             t.memberExpression(t.identifier("scope"), t.identifier("get")),
-            [t.stringLiteral(path.node.right.name)]
+            [t.stringLiteral(path.node.left.name)]
           );
         }
 
@@ -68,8 +69,16 @@ module.exports = function (babel) {
             [t.stringLiteral(path.node.callee.name)]
           );
 
+          const args = path.node.arguments.map(arg => {
+            if (arg.type === "Identifier") {
+              return t.callExpression(
+                t.memberExpression(t.identifier("scope"), t.identifier("get")),
+                [t.stringLiteral(arg.name)]
+              );
+            } else return arg;
+          })
           path.replaceWith(
-            t.callExpression(innerExpr, [...path.node.arguments])
+            t.callExpression(innerExpr, [...args])
           );
         }
         /* Todo: transform callee types of MemberExpression */

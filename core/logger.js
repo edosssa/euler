@@ -10,13 +10,18 @@ class Logger {
         this.component = name
     }
 
+    configureTap(cb) {
+        this.logTap = cb;
+    }
+
     log(message, level = logLevel.info) {
         const colorize = (function () {
             if (level === logLevel.info) { return chalk.green }
             else if (level === logLevel.error) { return chalk.red }
         })();
-        console.log(`${colorize(`[${this.component}]`)} ${message}`);
+        const tap = this.logTap || console.log;
+        tap(message);
     }
 }
-
+    
 module.exports = { Logger, logLevels: logLevel }

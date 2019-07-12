@@ -516,6 +516,11 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+custom-electron-titlebar@^3.0.10:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/custom-electron-titlebar/-/custom-electron-titlebar-3.0.10.tgz#0e2b648820040b0995a63b0f4b27582f966ac270"
+  integrity sha512-FVKy7P0NpMTkm5rEpETXkJWQ7w9ufdU8TA5xhfiR1Jgnhy6fBaCNUMmXWLrNFrhG69MVvDXM/lLN21Rxaz78Ig==
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -530,7 +535,7 @@ debug@2.6.9, debug@^2.1.3, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.
   dependencies:
     ms "2.0.0"
 
-debug@^3.0.0, debug@^3.2.6:
+debug@^3.0.0, debug@^3.1.0, debug@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
@@ -1272,6 +1277,13 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
+lib-r-math.js@^1.0.86:
+  version "1.0.86"
+  resolved "https://registry.yarnpkg.com/lib-r-math.js/-/lib-r-math.js-1.0.86.tgz#ecbc25502f956fc7f5bdce302d138aa05bb42e59"
+  integrity sha512-U582LPZUD1Ceo6OAohrpo2N5M0K0z5slmiTWP6XOk8M/+F/yfm9HjafC9LdAv960SEn8zfIVPE7YVX+n1EOolQ==
+  dependencies:
+    debug "^3.1.0"
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
@@ -1954,6 +1966,11 @@ signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
+
+simple-statistics@^7.0.5:
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/simple-statistics/-/simple-statistics-7.0.5.tgz#9b3e750e3d2d5647d808ab97f0c14b40aaffcb9b"
+  integrity sha512-Fz3TaU6ERtpemiNh5IVmJ93+W/kJUEAZ2MrKe2tQ8iU8aFrrwPhW+62MZE0OJlG3GKH6KgcADBz/McIx0s0NhA==
 
 single-line-log@^1.1.2:
   version "1.1.2"

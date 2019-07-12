@@ -8,22 +8,25 @@ require('electron-reload')(__dirname, {
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindows;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    // this is important since currently there is no support for scrollable menus
+    minWidth: 600, // set a min width!
+    minHeight: 300, // and a min height!
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-    }
+    },
+    frame: false
   })
 
   mainWindow.loadFile('index.html')
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  //Open the DevTools.
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows

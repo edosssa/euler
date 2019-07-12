@@ -1,20 +1,18 @@
 const Table = require("cli-table");
 const colors = require("colors");
+const print = require("./print").print;
 
 function generateTable() {
   const genTable = new Table({
-    head: ["", colors.white("f"), colors.white("m"), colors.white("f * m")]
+    head: ["", "f", "m", "f * m"]
   });
 
   genTable.push(
-    ["[0 - 10]", "3", "5777777777777777777777", "15"],
-    ["[10 - 20]", "5", "15", "75"],
-    ["[10 - 20]", "5", "15", "75"],
     ["[10 - 20]", "5", "15", "75"],
     ["[10 - 20]", "5", "15", "75"],
     ["[10 - 20]", "5", "15", "75"]);
 
-  console.log(genTable.toString());
+  print("\n" + genTable.toString());
 }
 
 module.exports = {

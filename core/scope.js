@@ -1,33 +1,31 @@
+const injectors = []
+
 class Scope {
   constructor() {
     this.internalScope = {};
+    Scope.applyInjectors(this);
   }
 
-  set(key, value) {
+  static registerInjector(injector) {
+    injectors.push(injector);
+  }
+
+  static applyInjectors(scope) {
+    injectors.forEach(injector => injector(scope));
+  }
+
+  set(key, value, isInternal = false) {
     if (!key) throw new Error("Value supplied to add cannot be undefined");
-    this.internalScope[key] = value;
+    this.internalScope[key] = { isInternal, value: value }
   }
 
-  get(key) {
-    if (this.hasKey(key)) return this.internalScope[key];
-    else throw new Error("Key not found in scope");
-  }
+  get(key, isInternal = false) {
+    const hasKey =
+      this.internalScope[key] &&
+      this.internalScope[key].isInternal === isInternal
 
-  remove(key) {
-    if (this.hasKey(key)) delete this.internalScope[key];
-    else throw new Error("Key not found in scope");
-  }
-
-  hasKey(key) {
-    return Object.keys(this.internalScope).filter(k => k === key).length === 1;
-  }
-
-  purge() {
-    for (value in this.internalScope) {
-      /* Makes sure they are effectively garbage-collected */
-      delete internalScope[value];
-    }
-    this.internalScope = Object.create(null);
+    if (!hasKey) throw new Error(`${key} not found in scope`);
+    else return this.internalScope[key].value;
   }
 
   getAsObject() {

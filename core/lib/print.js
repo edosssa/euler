@@ -1,5 +1,10 @@
+let printTap;
+
 module.exports = {
+    configurePrintTap: (tap) => {
+        printTap = tap;
+    },
     print: (value) => {
-        console.log(`>>> ${value}`);
+        printTap(`${value}`);
     }
 }

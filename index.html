@@ -3,50 +3,58 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Euler</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      height: 100vh;
-    }
-
-    body {
-      height: 100vh;
-    }
-
-    .editor {
-      height: 70%;
-      width: 100%;
-    }
-
-    .terminal {
-      height: 30%  ;
-    }
-
-    .terminal__content {
-      height: 90%;
-      width: 100%;
-      background-color: black;
-    }
-
-    .terminal__header {
-      height: 10%;
-    }
-  </style>
-
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/index.css">
 </head>
 
 <body>
-  <div id="editor" class="editor"></div>
-  <div class="terminal">
-    <div class="terminal__header"></div>
-    <div id="terminal" class="terminal__content"></div>
+  <div class="container">
+    <div id="toolbar" class="toolbar">
+      <div class="toolbar__toolbarItem">
+        <span style="color: white; font-weight: 200">hello-world.js</span>
+      </div>
+      <div class="toolbar__toolbarItem-divider"></div>
+      <div class="toolbar__toolbarItem">
+        <button id="run-btn" class="run-btn">RUN</button>
+      </div>
+    </div>
+    <div class="d-flex">
+      <!--EDITOR-->
+      <div id="editor" class="editor"></div>
+
+      <!--TERMINAL-->
+      <div id="terminal" class="terminal">
+        <!--TERMINAL HEADER-->
+        <div class="terminal__header">
+          <div id="terminal__header__tabs" class="terminal__header__tabs">
+            <span id="output-terminal-tab"
+              class="terminal__header__tabItem terminal__header__tabItem-active">OUTPUT</span>
+            <span id="debug-terminal-tab" class="terminal__header__tabItem">DEBUG</span>
+            <span class="terminal__header__tabItem-divider"></span>
+            <span id="close-terminal-tab" class="terminal__header__tabItem terminal__header__tabItem-control">✖️</span>
+          </div>
+        </div>
+
+        <!--OUTPUT TERMINAL-->
+        <div id="output-terminal" class="terminal__container terminal__container-active">
+          <textarea readonly></textarea>
+        </div>
+        <!--DEBUG TERMINAL-->
+        <div id="debug-terminal" class="terminal__container">
+          <textarea readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!--BOTTOM STATUS BAR-->
+    <div id="status-bar" class="status-bar">
+      <span class="status-bar__item">⚠ 0</span>
+      <span class="status-bar__item-divider"></span>
+      <span class="status-bar__item">Ln 1, Col 2 </span>
+      <span class="status-bar__item">💡 Quick Fix </span>
+    </div>
   </div>
-  <!-- You can also require other files to run in this process -->
+
   <script src="./renderer.js"></script>
 </body>
 

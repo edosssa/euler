@@ -1,0 +1,224 @@
+* {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Helvetica, sans-serif;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.menubar-menu-title {
+    color: #ccc;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+:root {
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    background: #1e1e1e;
+}
+
+.d-flex {
+    height: calc(100% - 50px - 25px);
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    height: 50px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    background-color: #1e1e1e;
+}
+
+.toolbar__toolbarItem-divider {
+    flex-grow: 1;
+}
+
+.toolbar__toolbarItem {
+    font-weight: bold;
+    display: block;
+}
+
+.run-btn {
+    padding: 7px 20px;
+    border-radius: 2px;
+    border: 0;
+    color: #fff;
+    background-color: #2ecc71;
+    outline: 0;
+}
+
+.run-btn:hover {
+    cursor: pointer;
+    background-color: #27ae60
+}
+
+.run-btn:active {
+    background-color: #2ecc71;
+}
+
+.editor {
+    height: 60%;
+    flex-grow: 1;
+    background-color: #1e1e1e;
+}
+
+.terminal {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #3f3f3f;
+}
+
+/* Resizing terminal is a beta feature */
+
+/* .terminal::before {
+    content: '';
+    display: block;
+    position: relative;
+    top: 0;
+    background-color: transparent;
+    width: 100%;
+    height: 3px;
+    cursor: ns-resize;
+} */
+
+.terminal__header {
+    background-color: #131313;
+    padding: 5px 10px 3px 20px;
+}
+
+.terminal__header__tabs {
+    display: flex;
+}
+
+.terminal__header__tabItem {
+    font-size: 0.7rem;
+    line-height: 1.5;
+    display: block;
+    color: gray;
+    margin-right: 20px;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.terminal__header__tabItem-control {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+.terminal__header__tabItem-divider {
+    flex-grow: 1;
+}
+
+.terminal__header__tabItem:hover {
+    color: white;
+}
+
+.terminal__header__tabItem:active {
+    border-bottom: 1px solid #1e90ff;
+}
+
+.terminal__header__tabItem-active {
+    border-bottom: 1px solid gray;
+}
+
+.terminal__container {
+    width: 100%;
+    padding-top: 10px;
+    background-color: #131313;
+    height: 100%;
+    display: none;
+}
+
+.terminal__container textarea {
+    box-sizing: border-box;
+    background-color: #131313;
+    height: 100%;
+    color: white;
+    border: 0;
+    outline: 0;
+    padding: 0 40px 0 20px;
+    width: 100%;
+    font-family: 'Consolas', Courier, monospace;
+    line-height: 1.2;
+    font-size: 1.0rem;
+    font-weight: lighter;
+    resize: none;
+    cursor: unset;
+}
+
+.terminal__container textarea::-webkit-scrollbar {
+    width: 13px;
+    height: 8px;
+    background-color: #131313;
+    cursor: pointer;
+}
+
+.terminal__container textarea::-webkit-scrollbar-thumb {
+    height: 40px;
+    background: rgb(82, 82, 82);
+}
+
+.terminal__container textarea::-webkit-scrollbar-thumb:hover {
+    background: rgb(105, 105, 105);
+}
+
+.terminal__container-active {
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+.status-bar {
+    height: 25px;
+    background-color: #1e90ff;
+    align-items: stretch;
+    align-content: center;
+    display: flex;
+    padding: 0 10px;
+    transition: 0.5s all;
+}
+
+.status-bar-running {
+    background-color: #e67e22;
+}
+
+.status-bar-failed {
+    background-color: #e74c3c;
+}
+
+.status-bar-success {
+    background-color: #27ae60;
+}
+
+.status-bar__item {
+    font-size: 0.8rem;
+    font-weight: 400;
+    cursor: pointer;
+    padding: 5px 5px;
+    border: 1px solid transparent;
+    color: white;
+    display: inline-block;
+}
+
+.status-bar__item-divider {
+    flex-grow: 1;
+}
+
+.status-bar__item:hover {
+    background-color: #131313;
+}

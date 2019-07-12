@@ -6,8 +6,8 @@ module.exports = class InteropHost {
 
   getBuilderPath(monikar) {
     switch (monikar) {
-      case "py":
-        return "python";
+      case "python":
+        return `./interop/python/build`;
       default:
         return "unknown";
     }
@@ -17,7 +17,7 @@ module.exports = class InteropHost {
     return new Promise(async (resolve, reject) => {
       let build = undefined;
 
-      try { build = require(`./interop/${this.getBuilderPath(lang)}/build`); }
+      try { build = require(this.getBuilderPath(lang)); }
       catch (error) { return reject(new Error(`${lang} is not supported for scripting`)); }
 
       const process = await build(code);
